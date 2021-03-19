@@ -1,32 +1,58 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState, useEffect } from "react";
 import { Camera } from "expo-camera";
-import * as Permissions from "expo-permissions";
+import styled from "styled-components/native";
+
+const Container = styled.View`
+  flex: 1;
+`;
+const ButtonContainer = styled.View`
+  flex: 1;
+  background-color: transparent;
+  flex-direction: row;
+  margin: 20px;
+`;
+const Button = styled.TouchableOpacity`
+  flex: 0.1;
+  align-self: flex-end;
+  align-items: center;
+`;
+const Title = styled.Text`
+  font-size: 18px;
+  color: yellow;
+`;
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
-
-  const askPermission = async () => {
-    const { status } = await Camera.requestPermissionsAsync();
-    setHasPermission(status === "granted");
-  };
+  const [type, setType] = useState(Camera.Constants.Type.back);
 
   useEffect(() => {
-    askPermission();
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text>Smiley:)</Text>
-    </View>
+    <Container>
+      {hasPermission ? (
+        <Camera style={{ flex: 1 }} type={type}>
+          <ButtonContainer>
+            <Button
+              onPress={() => {
+                setType(
+                  type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back
+                );
+              }}
+            >
+              <Title>Flip</Title>
+            </Button>
+          </ButtonContainer>
+        </Camera>
+      ) : (
+        <Title>No access to camera</Title>
+      )}
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
