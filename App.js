@@ -2,15 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Camera } from "expo-camera";
 import styled from "styled-components/native";
 import { Feather } from "@expo/vector-icons";
+import { Dimensions } from "react-native";
+import * as FaceDetector from "expo-face-detector";
 
+const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 const Container = styled.View`
   flex: 1;
 `;
-const ButtonContainer = styled.View`
-  flex: 1;
-  background-color: transparent;
+const TopContainer = styled.View`
+  height: 60px;
   flex-direction: row;
-  margin: 20px;
+  margin: 20px 0;
+`;
+const BottomContainer = styled.View`
+  flex: 0.45;
+  flex-direction: row;
+  margin: 20px 0;
 `;
 const Button = styled.TouchableOpacity`
   flex: 1;
@@ -18,11 +25,16 @@ const Button = styled.TouchableOpacity`
   align-self: flex-end;
   align-items: center;
   justify-content: center;
+  color: black;
 `;
-const Title = styled.Text`
-  font-size: 18px;
-  color: yellow;
+const CameraContainer = styled.View`
+  height: ${WIDTH - 48}px;
+  border-radius: 500px;
+  overflow: hidden;
+  margin: 24px;
+  border: 2px solid black;
 `;
+const Text = styled.Text``;
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -31,24 +43,20 @@ export default function App() {
   const [zoom, setZoom] = useState(0);
   const [whiteBalance, setWhiteBalance] = useState("auto");
 
+  const askPermisstion = async () => {
+    const { status } = await Camera.requestPermissionsAsync();
+    setHasPermission(status === "granted");
+  };
+
   useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    })();
+    askPermisstion();
   }, []);
 
   return (
     <Container>
       {hasPermission ? (
-        <Camera
-          style={{ flex: 1 }}
-          type={type}
-          flashMode={flashMode}
-          zoom={zoom}
-          whiteBalance={whiteBalance}
-        >
-          <ButtonContainer>
+        <>
+          <TopContainer>
             <Button
               onPress={() => {
                 setType(
@@ -61,10 +69,8 @@ export default function App() {
               <Feather
                 name={type === Camera.Constants.Type.back ? "frown" : "smile"}
                 size={24}
-                color="yellow"
               />
             </Button>
-
             <Button
               onPress={() => {
                 setFlashMode(
@@ -74,33 +80,26 @@ export default function App() {
                 );
               }}
             >
-              <Title>
-                <Feather
-                  name={
-                    flashMode === Camera.Constants.FlashMode.off
-                      ? "zap"
-                      : "zap-off"
-                  }
-                  size={24}
-                  color="yellow"
-                />
-              </Title>
+              <Feather
+                name={
+                  flashMode === Camera.Constants.FlashMode.off
+                    ? "zap"
+                    : "zap-off"
+                }
+                size={24}
+              />
             </Button>
-
             <Button
               onPress={() => {
                 setZoom(zoom === 0 ? 1 : 0);
               }}
             >
-              <Title>
-                <Feather
-                  name={zoom === 0 ? "zoom-in" : "zoom-out"}
-                  size={24}
-                  color="yellow"
-                />
-              </Title>
+              <Feather
+                name={zoom === 0 ? "zoom-in" : "zoom-out"}
+                size={24}
+                color="black"
+              />
             </Button>
-
             <Button
               onPress={() => {
                 setWhiteBalance(
@@ -118,30 +117,39 @@ export default function App() {
                 );
               }}
             >
-              <Title>
-                <Feather
-                  name={
-                    whiteBalance === "auto"
-                      ? "loader"
-                      : whiteBalance === "sunny"
-                      ? "sun"
-                      : whiteBalance === "cloudy"
-                      ? "cloud"
-                      : whiteBalance === "shadow"
-                      ? "cloud-rain"
-                      : whiteBalance === "fluorescent"
-                      ? "cloud-drizzle"
-                      : "cloud-snow"
-                  }
-                  size={24}
-                  color="yellow"
-                />
-              </Title>
+              <Feather
+                name={
+                  whiteBalance === "auto"
+                    ? "loader"
+                    : whiteBalance === "sunny"
+                    ? "sun"
+                    : whiteBalance === "cloudy"
+                    ? "cloud"
+                    : whiteBalance === "shadow"
+                    ? "cloud-rain"
+                    : whiteBalance === "fluorescent"
+                    ? "cloud-drizzle"
+                    : "cloud-snow"
+                }
+                size={24}
+              />
             </Button>
-          </ButtonContainer>
-        </Camera>
+          </TopContainer>
+
+          <CameraContainer>
+            <Camera
+              style={{ flex: 1 }}
+              type={type}
+              flashMode={flashMode}
+              zoom={zoom}
+              whiteBalance={whiteBalance}
+            />
+          </CameraContainer>
+
+          <BottomContainer></BottomContainer>
+        </>
       ) : (
-        <Title>No access to camera</Title>
+        <Text>No access to camera</Text>
       )}
     </Container>
   );
