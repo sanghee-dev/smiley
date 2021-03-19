@@ -3,14 +3,15 @@ import { Camera } from "expo-camera";
 import styled from "styled-components/native";
 import { Dimensions } from "react-native";
 import * as FaceDetector from "expo-face-detector";
-import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
 import Flip from "./Components/Flip";
 import Zoom from "./Components/Zoom";
 import Flash from "./Components/Flash";
 import WhiteBalance from "./Components/WhiteBalance";
+import Timer from "./Components/Timer";
 import { Feather } from "@expo/vector-icons";
 
+const ALBUM_NAME = "Smiley";
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 const Container = styled.View`
   flex: 1;
@@ -40,6 +41,17 @@ const CameraContainer = styled.View`
   margin: 20px;
   border: 2px solid black;
 `;
+const TimerTextContainer = styled.View`
+  width: ${WIDTH - 40}px;
+  height: ${WIDTH - 40}px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+`;
+const TimerText = styled.Text`
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 80px;
+`;
 const Text = styled.Text``;
 
 export default function App() {
@@ -49,9 +61,10 @@ export default function App() {
   const [zoom, setZoom] = useState(0);
   const [whiteBalance, setWhiteBalance] = useState("auto");
   const [smileDetected, setSmileDetected] = useState(false);
+  const [timer, setTimer] = useState(0);
   const cameraRef = useRef();
 
-  const askPermisstion = async () => {
+  const askPermission = async () => {
     const { status } = await Camera.requestPermissionsAsync();
     setHasPermission(status === "granted");
   };
@@ -63,24 +76,45 @@ export default function App() {
       takePhoto();
     }
   };
-
   const takePhoto = async () => {
     try {
-      let { uri } = await cameraRef.current?.takePictureAsync({
-        quality: 1,
-      });
-      if (uri) {
-        savePhoto(uri);
-      }
+      setTimeout(async () => {
+        let { uri } = await cameraRef.current?.takePictureAsync({
+          quality: 1,
+        });
+        if (uri) {
+          savePhoto(uri);
+        }
+      }, timer);
     } catch (error) {
       alert(error);
       setSmileDetected(false);
     }
   };
-  const savePhoto = async (uri) => {};
+  const savePhoto = async (uri) => {
+    try {
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      if (status === "granted") {
+        const asset = await MediaLibrary.createAssetAsync(uri);
+        let album = await MediaLibrary.getAlbumAsync(ALBUM_NAME);
+        if (album === null) {
+          album = await MediaLibrary.createAlbumAsync(ALBUM_NAME, asset);
+        } else {
+          await MediaLibrary.addAssetsToAlbumAsync([asset], album.id);
+        }
+        setTimeout(() => {
+          setSmileDetected(false);
+        }, 2000);
+      } else {
+        setHasPermission(false);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   useEffect(() => {
-    askPermisstion();
+    askPermission();
   }, []);
 
   return (
@@ -90,6 +124,7 @@ export default function App() {
           <TopContainer>
             <Flip type={type} setType={setType} Camera={Camera} />
             <Zoom zoom={zoom} setZoom={setZoom} />
+            <Timer timer={timer} setTimer={setTimer} />
             <Flash
               flashMode={flashMode}
               setFlashMode={setFlashMode}
@@ -118,6 +153,9 @@ export default function App() {
                 tracking: true,
               }}
             />
+            <TimerTextContainer>
+              <TimerText>{timer !== 0 && timer / 1000}</TimerText>
+            </TimerTextContainer>
           </CameraContainer>
 
           <BottomContainer>
