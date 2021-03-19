@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Camera } from "expo-camera";
 import styled from "styled-components/native";
+import { Feather } from "@expo/vector-icons";
 
 const Container = styled.View`
   flex: 1;
@@ -12,9 +13,11 @@ const ButtonContainer = styled.View`
   margin: 20px;
 `;
 const Button = styled.TouchableOpacity`
-  flex: 0.1;
+  flex: 1;
+  flex-direction: row;
   align-self: flex-end;
   align-items: center;
+  justify-content: center;
 `;
 const Title = styled.Text`
   font-size: 18px;
@@ -23,7 +26,9 @@ const Title = styled.Text`
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [type, setType] = useState(Camera.Constants.Type.front);
+  const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.off);
+  const [zoom, setZoom] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -35,18 +40,64 @@ export default function App() {
   return (
     <Container>
       {hasPermission ? (
-        <Camera style={{ flex: 1 }} type={type}>
+        <Camera
+          style={{ flex: 1 }}
+          type={type}
+          flashMode={flashMode}
+          zoom={zoom}
+          whiteBalance={"sunny"}
+        >
           <ButtonContainer>
             <Button
               onPress={() => {
                 setType(
-                  type === Camera.Constants.Type.back
-                    ? Camera.Constants.Type.front
-                    : Camera.Constants.Type.back
+                  type === Camera.Constants.Type.front
+                    ? Camera.Constants.Type.back
+                    : Camera.Constants.Type.front
                 );
               }}
             >
-              <Title>Flip</Title>
+              <Feather
+                name={type === Camera.Constants.Type.back ? "frown" : "smile"}
+                size={24}
+                color="yellow"
+              />
+            </Button>
+
+            <Button
+              onPress={() => {
+                setFlashMode(
+                  flashMode === Camera.Constants.FlashMode.off
+                    ? Camera.Constants.FlashMode.on
+                    : Camera.Constants.FlashMode.off
+                );
+              }}
+            >
+              <Title>
+                <Feather
+                  name={
+                    flashMode === Camera.Constants.FlashMode.off
+                      ? "zap"
+                      : "zap-off"
+                  }
+                  size={24}
+                  color="yellow"
+                />
+              </Title>
+            </Button>
+
+            <Button
+              onPress={() => {
+                setZoom(zoom === 0 ? 1 : 0);
+              }}
+            >
+              <Title>
+                <Feather
+                  name={zoom === 0 ? "zoom-in" : "zoom-out"}
+                  size={24}
+                  color="yellow"
+                />
+              </Title>
             </Button>
           </ButtonContainer>
         </Camera>
