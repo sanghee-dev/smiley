@@ -29,6 +29,7 @@ export default function App() {
   const [type, setType] = useState(Camera.Constants.Type.front);
   const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.off);
   const [zoom, setZoom] = useState(0);
+  const [whiteBalance, setWhiteBalance] = useState("auto");
 
   useEffect(() => {
     (async () => {
@@ -45,7 +46,7 @@ export default function App() {
           type={type}
           flashMode={flashMode}
           zoom={zoom}
-          whiteBalance={"sunny"}
+          whiteBalance={whiteBalance}
         >
           <ButtonContainer>
             <Button
@@ -94,6 +95,44 @@ export default function App() {
               <Title>
                 <Feather
                   name={zoom === 0 ? "zoom-in" : "zoom-out"}
+                  size={24}
+                  color="yellow"
+                />
+              </Title>
+            </Button>
+
+            <Button
+              onPress={() => {
+                setWhiteBalance(
+                  whiteBalance === "auto"
+                    ? "sunny"
+                    : whiteBalance === "sunny"
+                    ? "cloudy"
+                    : whiteBalance === "cloudy"
+                    ? "shadow"
+                    : whiteBalance === "shadow"
+                    ? "fluorescent"
+                    : whiteBalance === "fluorescent"
+                    ? "incandescent"
+                    : "auto"
+                );
+              }}
+            >
+              <Title>
+                <Feather
+                  name={
+                    whiteBalance === "auto"
+                      ? "loader"
+                      : whiteBalance === "sunny"
+                      ? "sun"
+                      : whiteBalance === "cloudy"
+                      ? "cloud"
+                      : whiteBalance === "shadow"
+                      ? "cloud-rain"
+                      : whiteBalance === "fluorescent"
+                      ? "cloud-drizzle"
+                      : "cloud-snow"
+                  }
                   size={24}
                   color="yellow"
                 />
