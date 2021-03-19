@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Camera } from "expo-camera";
 import styled from "styled-components/native";
-import { Feather } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
 import * as FaceDetector from "expo-face-detector";
+import * as FileSystem from "expo-file-system";
+import * as MediaLibrary from "expo-media-library";
 import Flip from "./Components/Flip";
 import Zoom from "./Components/Zoom";
 import Flash from "./Components/Flash";
 import WhiteBalance from "./Components/WhiteBalance";
+import { Feather } from "@expo/vector-icons";
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 const Container = styled.View`
@@ -46,12 +48,36 @@ export default function App() {
   const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.off);
   const [zoom, setZoom] = useState(0);
   const [whiteBalance, setWhiteBalance] = useState("auto");
-  const [onFacesDetected, setOnFacesDetected] = useState(false);
+  const [smileDetected, setSmileDetected] = useState(false);
+  const cameraRef = useRef();
 
   const askPermisstion = async () => {
     const { status } = await Camera.requestPermissionsAsync();
     setHasPermission(status === "granted");
   };
+
+  const onFacesDetected = ({ faces }) => {
+    const face = faces[0];
+    if (face?.smilingProbability > 0.8) {
+      setSmileDetected(true);
+      takePhoto();
+    }
+  };
+
+  const takePhoto = async () => {
+    try {
+      let { uri } = await cameraRef.current?.takePictureAsync({
+        quality: 1,
+      });
+      if (uri) {
+        savePhoto(uri);
+      }
+    } catch (error) {
+      alert(error);
+      setSmileDetected(false);
+    }
+  };
+  const savePhoto = async (uri) => {};
 
   useEffect(() => {
     askPermisstion();
@@ -77,16 +103,28 @@ export default function App() {
 
           <CameraContainer>
             <Camera
+              ref={cameraRef}
               style={{ flex: 1 }}
               type={type}
               flashMode={flashMode}
               zoom={zoom}
               whiteBalance={whiteBalance}
-              onFacesDetected={onFacesDetected}
+              onFacesDetected={smileDetected ? null : onFacesDetected}
+              faceDetectorSettings={{
+                mode: FaceDetector.Constants.Mode.fast,
+                detectLandmarks: FaceDetector.Constants.Landmarks.all,
+                runClassifications: FaceDetector.Constants.Classifications.all,
+                minDetectionInterval: 100,
+                tracking: true,
+              }}
             />
           </CameraContainer>
 
-          <BottomContainer></BottomContainer>
+          <BottomContainer>
+            <Button onPress={() => takePhoto()}>
+              <Feather name="aperture" size={24} color="black" />
+            </Button>
+          </BottomContainer>
         </>
       ) : (
         <Text>No access to camera</Text>

@@ -14,7 +14,7 @@ const Button = styled.TouchableOpacity`
 const Zoom = ({ zoom, setZoom }) => (
   <Button
     onPress={() => {
-      setZoom(zoom === 0 ? 1 : 0);
+      setZoom(zoom === 0 ? 0.005 : zoom === 0.005 ? 0.01 : 0);
     }}
   >
     <Feather
