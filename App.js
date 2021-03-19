@@ -4,6 +4,10 @@ import styled from "styled-components/native";
 import { Feather } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
 import * as FaceDetector from "expo-face-detector";
+import Flip from "./Components/Flip";
+import Zoom from "./Components/Zoom";
+import Flash from "./Components/Flash";
+import WhiteBalance from "./Components/WhiteBalance";
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 const Container = styled.View`
@@ -28,10 +32,10 @@ const Button = styled.TouchableOpacity`
   color: black;
 `;
 const CameraContainer = styled.View`
-  height: ${WIDTH - 48}px;
-  border-radius: 500px;
+  height: ${WIDTH - 40}px;
+  border-radius: 20px;
   overflow: hidden;
-  margin: 24px;
+  margin: 20px;
   border: 2px solid black;
 `;
 const Text = styled.Text``;
@@ -42,6 +46,7 @@ export default function App() {
   const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.off);
   const [zoom, setZoom] = useState(0);
   const [whiteBalance, setWhiteBalance] = useState("auto");
+  const [onFacesDetected, setOnFacesDetected] = useState(false);
 
   const askPermisstion = async () => {
     const { status } = await Camera.requestPermissionsAsync();
@@ -57,83 +62,17 @@ export default function App() {
       {hasPermission ? (
         <>
           <TopContainer>
-            <Button
-              onPress={() => {
-                setType(
-                  type === Camera.Constants.Type.front
-                    ? Camera.Constants.Type.back
-                    : Camera.Constants.Type.front
-                );
-              }}
-            >
-              <Feather
-                name={type === Camera.Constants.Type.back ? "frown" : "smile"}
-                size={24}
-              />
-            </Button>
-            <Button
-              onPress={() => {
-                setFlashMode(
-                  flashMode === Camera.Constants.FlashMode.off
-                    ? Camera.Constants.FlashMode.on
-                    : Camera.Constants.FlashMode.off
-                );
-              }}
-            >
-              <Feather
-                name={
-                  flashMode === Camera.Constants.FlashMode.off
-                    ? "zap"
-                    : "zap-off"
-                }
-                size={24}
-              />
-            </Button>
-            <Button
-              onPress={() => {
-                setZoom(zoom === 0 ? 1 : 0);
-              }}
-            >
-              <Feather
-                name={zoom === 0 ? "zoom-in" : "zoom-out"}
-                size={24}
-                color="black"
-              />
-            </Button>
-            <Button
-              onPress={() => {
-                setWhiteBalance(
-                  whiteBalance === "auto"
-                    ? "sunny"
-                    : whiteBalance === "sunny"
-                    ? "cloudy"
-                    : whiteBalance === "cloudy"
-                    ? "shadow"
-                    : whiteBalance === "shadow"
-                    ? "fluorescent"
-                    : whiteBalance === "fluorescent"
-                    ? "incandescent"
-                    : "auto"
-                );
-              }}
-            >
-              <Feather
-                name={
-                  whiteBalance === "auto"
-                    ? "loader"
-                    : whiteBalance === "sunny"
-                    ? "sun"
-                    : whiteBalance === "cloudy"
-                    ? "cloud"
-                    : whiteBalance === "shadow"
-                    ? "cloud-rain"
-                    : whiteBalance === "fluorescent"
-                    ? "cloud-drizzle"
-                    : "cloud-snow"
-                }
-                size={24}
-              />
-            </Button>
+            <Flip type={type} setType={setType} Camera={Camera} />
+            <Zoom zoom={zoom} setZoom={setZoom} />
+            <Flash
+              flashMode={flashMode}
+              setFlashMode={setFlashMode}
+              Camera={Camera}
+            />
+            <WhiteBalance
+              whiteBalance={whiteBalance}
+              setWhiteBalance={setWhiteBalance}
+            />
           </TopContainer>
 
           <CameraContainer>
@@ -143,6 +82,7 @@ export default function App() {
               flashMode={flashMode}
               zoom={zoom}
               whiteBalance={whiteBalance}
+              onFacesDetected={onFacesDetected}
             />
           </CameraContainer>
 
