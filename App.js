@@ -78,6 +78,14 @@ export default function App() {
   };
   const takePhoto = async () => {
     try {
+      let count = timer;
+      const repeat = setInterval(() => {
+        count = count - 1000;
+        setTimer(count);
+        if (count < 1) {
+          clearInterval(repeat);
+        }
+      }, 1000);
       setTimeout(async () => {
         let { uri } = await cameraRef.current?.takePictureAsync({
           quality: 1,
