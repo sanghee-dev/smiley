@@ -175,21 +175,19 @@ export default function App() {
         {hasPermission ? (
           <>
             <SwitchContainer>
-              <LinearGradient colors={["rgb(240,255,120)", "red"]}>
-                <FaceMask smileMask={smileMask} setSmileMask={setSmileMask} />
-                <Timer timer={timer} setTimer={setTimer} />
-                <Flip type={type} setType={setType} Camera={Camera} />
-                <Zoom zoom={zoom} setZoom={setZoom} />
-                <Flash
-                  flashMode={flashMode}
-                  setFlashMode={setFlashMode}
-                  Camera={Camera}
-                />
-                <WhiteBalance
-                  whiteBalance={whiteBalance}
-                  setWhiteBalance={setWhiteBalance}
-                />
-              </LinearGradient>
+              <FaceMask smileMask={smileMask} setSmileMask={setSmileMask} />
+              <Timer timer={timer} setTimer={setTimer} />
+              <Flip type={type} setType={setType} Camera={Camera} />
+              <Zoom zoom={zoom} setZoom={setZoom} />
+              <Flash
+                flashMode={flashMode}
+                setFlashMode={setFlashMode}
+                Camera={Camera}
+              />
+              <WhiteBalance
+                whiteBalance={whiteBalance}
+                setWhiteBalance={setWhiteBalance}
+              />
             </SwitchContainer>
 
             <CameraContainer>
