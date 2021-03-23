@@ -30,18 +30,6 @@ const CameraContainer = styled.View`
   margin: 20px;
   border: 1px solid black;
 `;
-const TimerTextContainer = styled.View`
-  width: ${WIDTH - 40}px;
-  height: ${WIDTH - 40}px;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-`;
-const TimerText = styled.Text`
-  color: rgba(240, 255, 9, 0.6);
-  font-size: 120px;
-  font-weight: 100;
-`;
 const ErrorText = styled.Text``;
 const LeftEye = styled.View`
   width: 10px;
@@ -208,9 +196,6 @@ export default function App() {
                   tracking: true,
                 }}
               />
-              <TimerTextContainer>
-                <TimerText>{timer !== 0 && timer / 1000}</TimerText>
-              </TimerTextContainer>
 
               {smileMask && (
                 <>

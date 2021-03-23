@@ -25,7 +25,7 @@ const Timer = ({ timer, setTimer }) => {
       locations={[0, 0.6]}
     >
       <SwitchBox style={{ borderBottomColor: "black", borderBottomWidth: 1 }}>
-        <SwitchText>Timer</SwitchText>
+        <SwitchText>Timer {timer ? timer / 1000 : ""}</SwitchText>
         <Switch
           trackColor={{ false: "#ffffff", true: "#000000" }}
           thumbColor="#ffffff"
