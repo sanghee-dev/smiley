@@ -56,14 +56,23 @@ const Shutter = styled.TouchableOpacity`
 `;
 const ErrorText = styled.Text``;
 const LeftEye = styled.View`
-  width: 20px;
-  height: 40px;
+  width: 10px;
+  height: 20px;
+  position: absolute;
   border-radius: 20px;
 `;
 const RightEye = styled.View`
-  width: 20px;
-  height: 40px;
+  width: 10px;
+  height: 20px;
+  position: absolute;
   border-radius: 20px;
+`;
+const Mouth = styled.View`
+  width: 50px;
+  height: 25px;
+  position: absolute;
+  border: 2px solid black;
+  overflow: hidden;
 `;
 
 export default function App() {
@@ -77,6 +86,7 @@ export default function App() {
   const cameraRef = useRef();
   const [leftEyePosition, setLeftEyePosition] = useState();
   const [rightEyePosition, setRightEyePosition] = useState();
+  const [mouthPosition, setMouthPosition] = useState();
   const [close, setClose] = useState();
 
   const askPermission = async () => {
@@ -86,8 +96,11 @@ export default function App() {
 
   const onFacesDetected = ({ faces }) => {
     const face = faces[0];
+
     setLeftEyePosition(face?.leftEyePosition);
     setRightEyePosition(face?.rightEyePosition);
+    setMouthPosition(face?.bottomMouthPosition);
+
     setClose(Math.floor(face?.bounds?.size?.width) / 100);
     if (face?.smilingProbability > 0.9) {
       setSmileDetected(true);
@@ -195,19 +208,29 @@ export default function App() {
               <LeftEye
                 style={{
                   transform: [{ scaleX: close || 1 }, { scaleY: close || 1 }],
-                  position: "absolute",
-                  left: leftEyePosition?.x - 10 || 0,
-                  top: leftEyePosition?.y - 20 || 0,
+                  left: leftEyePosition?.x - 0 || 0,
+                  top: leftEyePosition?.y - 10 || 0,
                   backgroundColor: leftEyePosition ? "black" : "transparent",
                 }}
               />
               <RightEye
                 style={{
                   transform: [{ scaleX: close || 1 }, { scaleY: close || 1 }],
-                  position: "absolute",
                   left: rightEyePosition?.x - 10 || 0,
-                  top: rightEyePosition?.y - 20 || 0,
+                  top: rightEyePosition?.y - 10 || 0,
                   backgroundColor: leftEyePosition ? "black" : "transparent",
+                }}
+              />
+              <Mouth
+                style={{
+                  transform: [{ scaleX: close || 1 }, { scaleY: close || 1 }],
+                  left: mouthPosition?.x - 25 || 0,
+                  top: mouthPosition?.y - 25 || 0,
+                  borderTopWidth: 1,
+                  borderTopColor: "transparent",
+                  borderBottomLeftRadius: 50,
+                  borderBottomRightRadius: 50,
+                  borderColor: mouthPosition ? "black" : "transparent",
                 }}
               />
             </CameraContainer>
