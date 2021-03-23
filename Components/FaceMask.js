@@ -16,33 +16,19 @@ const SwitchText = styled.Text`
   font-weight: 200;
 `;
 
-const WhiteBalance = ({ whiteBalance, setWhiteBalance }) => (
+const FaceMask = ({ smileMask, setSmileMask, Camera }) => (
   <LinearGradient colors={["rgb(240,255,120)", "white"]} locations={[0, 0.6]}>
     <SwitchBox style={{ borderBottomColor: "black", borderBottomWidth: 1 }}>
-      <SwitchText>WhiteBalance</SwitchText>
+      <SwitchText>Smile Mask</SwitchText>
       <Switch
         trackColor={{ false: "#ffffff", true: "#000000" }}
         thumbColor="#ffffff"
         ios_backgroundColor="#ffffff"
-        onValueChange={() => {
-          setWhiteBalance(
-            whiteBalance === "auto"
-              ? "sunny"
-              : // : whiteBalance === "sunny"
-                // ? "cloudy"
-                // : whiteBalance === "cloudy"
-                // ? "shadow"
-                // : whiteBalance === "shadow"
-                // ? "fluorescent"
-                // : whiteBalance === "fluorescent"
-                // ? "incandescent"
-                "auto"
-          );
-        }}
-        value={whiteBalance !== "auto"}
+        onValueChange={() => setSmileMask((prev) => !prev)}
+        value={!smileMask}
       />
     </SwitchBox>
   </LinearGradient>
 );
 
-export default WhiteBalance;
+export default FaceMask;

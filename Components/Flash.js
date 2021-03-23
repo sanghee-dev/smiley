@@ -22,9 +22,7 @@ const Flash = ({ flashMode, setFlashMode, Camera }) => (
       <SwitchText>Flash</SwitchText>
       <Switch
         trackColor={{ false: "#ffffff", true: "#000000" }}
-        thumbColor={
-          flashMode === Camera.Constants.FlashMode.off ? "#ffffff" : "#ffffff"
-        }
+        thumbColor="#ffffff"
         ios_backgroundColor="#ffffff"
         onValueChange={() => {
           setFlashMode(

@@ -22,9 +22,7 @@ const Flip = ({ type, setType, Camera }) => (
       <SwitchText>Flip</SwitchText>
       <Switch
         trackColor={{ false: "#ffffff", true: "#000000" }}
-        thumbColor={
-          type === Camera.Constants.Type.front ? "#ffffff" : "#ffffff"
-        }
+        thumbColor="#ffffff"
         ios_backgroundColor="#ffffff"
         onValueChange={() =>
           setType(

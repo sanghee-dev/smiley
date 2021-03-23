@@ -25,7 +25,7 @@ const Timer = ({ timer, setTimer }) => {
         <SwitchText>Timer</SwitchText>
         <Switch
           trackColor={{ false: "#ffffff", true: "#000000" }}
-          thumbColor={timer === 0 ? "#ffffff" : "#ffffff"}
+          thumbColor="#ffffff"
           ios_backgroundColor="#ffffff"
           onValueChange={() => {
             setTimer(timer === 0 ? timerTime : 0);

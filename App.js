@@ -10,6 +10,7 @@ import Zoom from "./Components/Zoom";
 import Flash from "./Components/Flash";
 import WhiteBalance from "./Components/WhiteBalance";
 import Timer from "./Components/Timer";
+import FaceMask from "./Components/FaceMask";
 import { LinearGradient } from "expo-linear-gradient";
 
 const ALBUM_NAME = "Smiley";
@@ -57,13 +58,13 @@ const Shutter = styled.TouchableOpacity`
 const ErrorText = styled.Text``;
 const LeftEye = styled.View`
   width: 10px;
-  height: 20px;
+  height: 10px;
   position: absolute;
   border-radius: 20px;
 `;
 const RightEye = styled.View`
   width: 10px;
-  height: 20px;
+  height: 10px;
   position: absolute;
   border-radius: 20px;
 `;
@@ -71,14 +72,22 @@ const Mouth = styled.View`
   width: 50px;
   height: 25px;
   position: absolute;
-  border: 2px solid black;
-  overflow: hidden;
+  border: 1.5px solid black;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+const MouthEnd = styled.View`
+  width: 3px;
+  height: 3px;
+  background-color: black;
+  border-radius: 50px;
+  position: relative;
 `;
 const Face = styled.View`
   width: 100px;
   height: 100px;
   position: absolute;
-  border: 2px solid black;
+  border: 1.5px solid black;
 `;
 
 export default function App() {
@@ -90,6 +99,7 @@ export default function App() {
   const [smileDetected, setSmileDetected] = useState(false);
   const [timer, setTimer] = useState(0);
   const cameraRef = useRef();
+  const [smileMask, setSmileMask] = useState(true);
   const [leftEyePosition, setLeftEyePosition] = useState();
   const [rightEyePosition, setRightEyePosition] = useState();
   const [mouthPosition, setMouthPosition] = useState();
@@ -176,9 +186,14 @@ export default function App() {
           <>
             <SwitchContainer>
               <LinearGradient colors={["rgb(240,255,120)", "red"]}>
+                <FaceMask
+                  setSmileMask={smileMask}
+                  setSmileMask={setSmileMask}
+                  Camera={Camera}
+                />
+                <Timer timer={timer} setTimer={setTimer} />
                 <Flip type={type} setType={setType} Camera={Camera} />
                 <Zoom zoom={zoom} setZoom={setZoom} />
-                <Timer timer={timer} setTimer={setTimer} />
                 <Flash
                   flashMode={flashMode}
                   setFlashMode={setFlashMode}
@@ -215,7 +230,7 @@ export default function App() {
 
               <Face
                 style={{
-                  transform: [{ scaleX: close || 1 }, { scaleY: close || 2 }],
+                  transform: [{ scaleX: close || 1 }, { scaleY: close || 1 }],
                   left: facePosition?.x + (50 * close) / 2 || 0,
                   top: facePosition?.y + (50 * close) / 2 || 0,
                   borderColor: facePosition ? "black" : "transparent",
@@ -227,7 +242,15 @@ export default function App() {
               />
               <LeftEye
                 style={{
-                  transform: [{ scaleX: close || 1 }, { scaleY: close || 1 }],
+                  transform: [
+                    { scaleX: close || 1 },
+                    { scaleY: close * 2 || 2 },
+                    {
+                      rotateZ:
+                        Math.round(rightEyePosition?.y - leftEyePosition?.y) /
+                          40 || 0,
+                    },
+                  ],
                   left: leftEyePosition?.x - 0 || 0,
                   top: leftEyePosition?.y - 10 || 0,
                   backgroundColor: leftEyePosition ? "black" : "transparent",
@@ -235,15 +258,31 @@ export default function App() {
               />
               <RightEye
                 style={{
-                  transform: [{ scaleX: close || 1 }, { scaleY: close || 1 }],
+                  transform: [
+                    { scaleX: close || 1 },
+                    { scaleY: close * 2 || 2 },
+                    {
+                      rotateZ:
+                        Math.round(rightEyePosition?.y - leftEyePosition?.y) /
+                          40 || 0,
+                    },
+                  ],
                   left: rightEyePosition?.x - 10 || 0,
                   top: rightEyePosition?.y - 10 || 0,
-                  backgroundColor: leftEyePosition ? "black" : "transparent",
+                  backgroundColor: rightEyePosition ? "black" : "transparent",
                 }}
               />
               <Mouth
                 style={{
-                  transform: [{ scaleX: close || 1 }, { scaleY: close || 1 }],
+                  transform: [
+                    { scaleX: close || 1 },
+                    { scaleY: close || 1 },
+                    {
+                      rotateZ:
+                        Math.round(rightEyePosition?.y - leftEyePosition?.y) /
+                          40 || 0,
+                    },
+                  ],
                   left: mouthPosition?.x - 25 || 0,
                   top: mouthPosition?.y - 25 || 0,
                   borderTopWidth: 1,
@@ -252,7 +291,14 @@ export default function App() {
                   borderBottomRightRadius: 50,
                   borderColor: mouthPosition ? "black" : "transparent",
                 }}
-              />
+              >
+                <MouthEnd
+                  style={{ bottom: 1, right: 2, transform: [{ scaleX: 2 }] }}
+                />
+                <MouthEnd
+                  style={{ bottom: 1, right: -2, transform: [{ scaleX: 2 }] }}
+                />
+              </Mouth>
             </CameraContainer>
 
             <ShutterContainer>

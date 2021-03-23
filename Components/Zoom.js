@@ -22,7 +22,7 @@ const Zoom = ({ zoom, setZoom }) => (
       <SwitchText>Zoom</SwitchText>
       <Switch
         trackColor={{ false: "#ffffff", true: "#000000" }}
-        thumbColor={zoom ? "#ffffff" : "#ffffff"}
+        thumbColor="#ffffff"
         ios_backgroundColor="#ffffff"
         onValueChange={() => {
           setZoom(zoom === 0 ? 0.005 : 0);
