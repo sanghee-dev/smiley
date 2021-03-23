@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import { Switch } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-const SwitchBox = styled.View`
+const SwitchBox = styled.TouchableOpacity`
   width: 100%;
   height: 70px;
   flex-direction: row;
@@ -16,27 +16,30 @@ const SwitchText = styled.Text`
   font-weight: 200;
 `;
 
-const FaceMask = ({ smileMask, setSmileMask }) => (
+const Shutter = ({ onPress, timering }) => (
   <LinearGradient
-    colors={[smileMask ? "rgb(240,255,120)" : "rgb(200,200,200)", "white"]}
+    colors={[!timering ? "rgb(240,255,120)" : "rgb(200,200,200)", "white"]}
     locations={[0, 0.6]}
   >
     <SwitchBox
       style={{
+        borderTopColor: "black",
+        borderTopWidth: 1,
         borderBottomColor: "black",
         borderBottomWidth: 1,
       }}
+      onPress={onPress}
     >
-      <SwitchText>Smile Mask</SwitchText>
+      <SwitchText>Shutter</SwitchText>
       <Switch
         trackColor={{ false: "#ffffff", true: "#000000" }}
         thumbColor="#ffffff"
         ios_backgroundColor="#ffffff"
-        onValueChange={() => setSmileMask((smileMask) => !smileMask)}
-        value={smileMask}
+        onValueChange={() => {}}
+        value={!timering}
       />
     </SwitchBox>
   </LinearGradient>
 );
 
-export default FaceMask;
+export default Shutter;

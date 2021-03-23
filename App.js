@@ -4,13 +4,13 @@ import styled from "styled-components/native";
 import { Dimensions } from "react-native";
 import * as FaceDetector from "expo-face-detector";
 import * as MediaLibrary from "expo-media-library";
-import { Feather } from "@expo/vector-icons";
 import Flip from "./Components/Flip";
 import Zoom from "./Components/Zoom";
 import Flash from "./Components/Flash";
 import WhiteBalance from "./Components/WhiteBalance";
 import Timer from "./Components/Timer";
 import FaceMask from "./Components/FaceMask";
+import Shutter from "./Components/Shutter";
 import { LinearGradient } from "expo-linear-gradient";
 
 const ALBUM_NAME = "Smiley";
@@ -24,7 +24,7 @@ const SwitchContainer = styled.ScrollView`
   border: 1px solid black;
 `;
 const CameraContainer = styled.View`
-  height: ${WIDTH - 40}px;
+  height: ${HEIGHT - 70 * 5 - 60}px;
   border-radius: 40px;
   overflow: hidden;
   margin: 20px;
@@ -41,19 +41,6 @@ const TimerText = styled.Text`
   color: rgba(240, 255, 9, 0.6);
   font-size: 120px;
   font-weight: 100;
-`;
-const ShutterContainer = styled.View`
-  flex: 0.45;
-  flex-direction: row;
-  margin: 20px 0;
-`;
-const Shutter = styled.TouchableOpacity`
-  flex: 1;
-  flex-direction: row;
-  align-self: flex-end;
-  align-items: center;
-  justify-content: center;
-  color: black;
 `;
 const ErrorText = styled.Text``;
 const LeftEye = styled.View`
@@ -98,6 +85,7 @@ export default function App() {
   const [whiteBalance, setWhiteBalance] = useState("auto");
   const [smileDetected, setSmileDetected] = useState(false);
   const [timer, setTimer] = useState(0);
+  const [timering, setTimering] = useState(false);
   const cameraRef = useRef();
   const [smileMask, setSmileMask] = useState(true);
   const [leftEyePosition, setLeftEyePosition] = useState();
@@ -126,6 +114,7 @@ export default function App() {
     }
   };
   const takePhoto = async () => {
+    setTimering(true);
     try {
       if (timer > 0) {
         let count = timer;
@@ -161,6 +150,7 @@ export default function App() {
         } else {
           await MediaLibrary.addAssetsToAlbumAsync([asset], album.id);
         }
+        setTimering(false);
         setTimeout(() => {
           setSmileDetected(false);
         }, 2000);
@@ -180,7 +170,7 @@ export default function App() {
     <Container>
       <LinearGradient
         colors={["rgb(240,255,120)", "white"]}
-        locations={[0, 0.4]}
+        locations={[0, 0.6]}
       >
         {hasPermission ? (
           <>
@@ -319,11 +309,7 @@ export default function App() {
               )}
             </CameraContainer>
 
-            <ShutterContainer>
-              <Shutter onPress={() => takePhoto()}>
-                <Feather name="aperture" size={24} color="black" />
-              </Shutter>
-            </ShutterContainer>
+            <Shutter onPress={takePhoto} timering={timering} />
           </>
         ) : (
           <ErrorText>No access to camera</ErrorText>
