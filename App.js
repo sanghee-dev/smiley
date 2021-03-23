@@ -74,6 +74,12 @@ const Mouth = styled.View`
   border: 2px solid black;
   overflow: hidden;
 `;
+const Face = styled.View`
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  border: 2px solid black;
+`;
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -87,6 +93,7 @@ export default function App() {
   const [leftEyePosition, setLeftEyePosition] = useState();
   const [rightEyePosition, setRightEyePosition] = useState();
   const [mouthPosition, setMouthPosition] = useState();
+  const [facePosition, setFacePosition] = useState();
   const [close, setClose] = useState();
 
   const askPermission = async () => {
@@ -100,6 +107,7 @@ export default function App() {
     setLeftEyePosition(face?.leftEyePosition);
     setRightEyePosition(face?.rightEyePosition);
     setMouthPosition(face?.bottomMouthPosition);
+    setFacePosition(face?.bounds?.origin);
 
     setClose(Math.floor(face?.bounds?.size?.width) / 100);
     if (face?.smilingProbability > 0.9) {
@@ -205,6 +213,18 @@ export default function App() {
                 <TimerText>{timer !== 0 && timer / 1000}</TimerText>
               </TimerTextContainer>
 
+              <Face
+                style={{
+                  transform: [{ scaleX: close || 1 }, { scaleY: close || 2 }],
+                  left: facePosition?.x + (50 * close) / 2 || 0,
+                  top: facePosition?.y + (50 * close) / 2 || 0,
+                  borderColor: facePosition ? "black" : "transparent",
+                  backgroundColor: facePosition
+                    ? "rgb(240,255,120)"
+                    : "transparent",
+                  borderRadius: 100,
+                }}
+              />
               <LeftEye
                 style={{
                   transform: [{ scaleX: close || 1 }, { scaleY: close || 1 }],
