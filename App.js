@@ -55,6 +55,16 @@ const Shutter = styled.TouchableOpacity`
   color: black;
 `;
 const ErrorText = styled.Text``;
+const LeftEye = styled.View`
+  width: 20px;
+  height: 40px;
+  border-radius: 20px;
+`;
+const RightEye = styled.View`
+  width: 20px;
+  height: 40px;
+  border-radius: 20px;
+`;
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -65,6 +75,9 @@ export default function App() {
   const [smileDetected, setSmileDetected] = useState(false);
   const [timer, setTimer] = useState(0);
   const cameraRef = useRef();
+  const [leftEyePosition, setLeftEyePosition] = useState();
+  const [rightEyePosition, setRightEyePosition] = useState();
+  const [close, setClose] = useState();
 
   const askPermission = async () => {
     const { status } = await Camera.requestPermissionsAsync();
@@ -73,6 +86,9 @@ export default function App() {
 
   const onFacesDetected = ({ faces }) => {
     const face = faces[0];
+    setLeftEyePosition(face?.leftEyePosition);
+    setRightEyePosition(face?.rightEyePosition);
+    setClose(Math.floor(face?.bounds?.size?.width) / 100);
     if (face?.smilingProbability > 0.9) {
       setSmileDetected(true);
       takePhoto();
@@ -175,6 +191,25 @@ export default function App() {
               <TimerTextContainer>
                 <TimerText>{timer !== 0 && timer / 1000}</TimerText>
               </TimerTextContainer>
+
+              <LeftEye
+                style={{
+                  transform: [{ scaleX: close || 1 }, { scaleY: close || 1 }],
+                  position: "absolute",
+                  left: leftEyePosition?.x - 10 || 0,
+                  top: leftEyePosition?.y - 20 || 0,
+                  backgroundColor: leftEyePosition ? "black" : "transparent",
+                }}
+              />
+              <RightEye
+                style={{
+                  transform: [{ scaleX: close || 1 }, { scaleY: close || 1 }],
+                  position: "absolute",
+                  left: rightEyePosition?.x - 10 || 0,
+                  top: rightEyePosition?.y - 20 || 0,
+                  backgroundColor: leftEyePosition ? "black" : "transparent",
+                }}
+              />
             </CameraContainer>
 
             <ShutterContainer>
