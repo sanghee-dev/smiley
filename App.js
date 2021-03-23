@@ -27,6 +27,7 @@ const CameraContainer = styled.View`
   border-radius: 40px;
   overflow: hidden;
   margin: 20px;
+  border: 1px solid black;
 `;
 const TimerTextContainer = styled.View`
   width: ${WIDTH - 40}px;
@@ -36,8 +37,8 @@ const TimerTextContainer = styled.View`
   position: absolute;
 `;
 const TimerText = styled.Text`
-  color: rgba(0, 0, 0, 0.5);
-  font-size: 100px;
+  color: rgba(240, 255, 9, 0.6);
+  font-size: 120px;
   font-weight: 100;
 `;
 const ShutterContainer = styled.View`
@@ -130,22 +131,27 @@ export default function App() {
 
   return (
     <Container>
-      <LinearGradient colors={["rgba(240,255,9,0.2)", "transparent"]}>
+      <LinearGradient
+        colors={["rgb(240,255,120)", "white"]}
+        locations={[0, 0.4]}
+      >
         {hasPermission ? (
           <>
             <SwitchContainer>
-              <Flip type={type} setType={setType} Camera={Camera} />
-              <Zoom zoom={zoom} setZoom={setZoom} />
-              <Timer timer={timer} setTimer={setTimer} />
-              <Flash
-                flashMode={flashMode}
-                setFlashMode={setFlashMode}
-                Camera={Camera}
-              />
-              <WhiteBalance
-                whiteBalance={whiteBalance}
-                setWhiteBalance={setWhiteBalance}
-              />
+              <LinearGradient colors={["rgb(240,255,120)", "red"]}>
+                <Flip type={type} setType={setType} Camera={Camera} />
+                <Zoom zoom={zoom} setZoom={setZoom} />
+                <Timer timer={timer} setTimer={setTimer} />
+                <Flash
+                  flashMode={flashMode}
+                  setFlashMode={setFlashMode}
+                  Camera={Camera}
+                />
+                <WhiteBalance
+                  whiteBalance={whiteBalance}
+                  setWhiteBalance={setWhiteBalance}
+                />
+              </LinearGradient>
             </SwitchContainer>
 
             <CameraContainer>

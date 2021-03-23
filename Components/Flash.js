@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
 import { Switch } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 const SwitchBox = styled.View`
   width: 100%;
@@ -16,24 +17,26 @@ const SwitchText = styled.Text`
 `;
 
 const Flash = ({ flashMode, setFlashMode, Camera }) => (
-  <SwitchBox style={{ borderBottomColor: "black", borderBottomWidth: 1 }}>
-    <SwitchText>Flash</SwitchText>
-    <Switch
-      trackColor={{ false: "#767577", true: "#F0FF09" }}
-      thumbColor={
-        flashMode === Camera.Constants.FlashMode.off ? "#ffffff" : "#ffffff"
-      }
-      ios_backgroundColor="#ffffff"
-      onValueChange={() => {
-        setFlashMode(
-          flashMode === Camera.Constants.FlashMode.off
-            ? Camera.Constants.FlashMode.on
-            : Camera.Constants.FlashMode.off
-        );
-      }}
-      value={flashMode !== Camera.Constants.FlashMode.off}
-    />
-  </SwitchBox>
+  <LinearGradient colors={["rgb(240,255,120)", "white"]} locations={[0, 0.6]}>
+    <SwitchBox style={{ borderBottomColor: "black", borderBottomWidth: 1 }}>
+      <SwitchText>Flash</SwitchText>
+      <Switch
+        trackColor={{ false: "#ffffff", true: "#000000" }}
+        thumbColor={
+          flashMode === Camera.Constants.FlashMode.off ? "#ffffff" : "#ffffff"
+        }
+        ios_backgroundColor="#ffffff"
+        onValueChange={() => {
+          setFlashMode(
+            flashMode === Camera.Constants.FlashMode.off
+              ? Camera.Constants.FlashMode.on
+              : Camera.Constants.FlashMode.off
+          );
+        }}
+        value={flashMode !== Camera.Constants.FlashMode.off}
+      />
+    </SwitchBox>
+  </LinearGradient>
 );
 
 export default Flash;

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
 import { Switch } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 const SwitchBox = styled.View`
   width: 100%;
@@ -16,18 +17,20 @@ const SwitchText = styled.Text`
 `;
 
 const Zoom = ({ zoom, setZoom }) => (
-  <SwitchBox style={{ borderBottomColor: "black", borderBottomWidth: 1 }}>
-    <SwitchText>Zoom</SwitchText>
-    <Switch
-      trackColor={{ false: "#767577", true: "#F0FF09" }}
-      thumbColor={zoom ? "#ffffff" : "#ffffff"}
-      ios_backgroundColor="#ffffff"
-      onValueChange={() => {
-        setZoom(zoom === 0 ? 0.005 : 0);
-      }}
-      value={zoom !== 0}
-    />
-  </SwitchBox>
+  <LinearGradient colors={["rgb(240,255,120)", "white"]} locations={[0, 0.6]}>
+    <SwitchBox style={{ borderBottomColor: "black", borderBottomWidth: 1 }}>
+      <SwitchText>Zoom</SwitchText>
+      <Switch
+        trackColor={{ false: "#ffffff", true: "#000000" }}
+        thumbColor={zoom ? "#ffffff" : "#ffffff"}
+        ios_backgroundColor="#ffffff"
+        onValueChange={() => {
+          setZoom(zoom === 0 ? 0.005 : 0);
+        }}
+        value={zoom !== 0}
+      />
+    </SwitchBox>
+  </LinearGradient>
 );
 
 export default Zoom;

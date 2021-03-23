@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components/native";
 import { Switch } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 const SwitchBox = styled.View`
   width: 100%;
@@ -16,30 +17,32 @@ const SwitchText = styled.Text`
 `;
 
 const WhiteBalance = ({ whiteBalance, setWhiteBalance }) => (
-  <SwitchBox style={{ borderBottomColor: "black", borderBottomWidth: 1 }}>
-    <SwitchText>WhiteBalance</SwitchText>
-    <Switch
-      trackColor={{ false: "#767577", true: "#F0FF09" }}
-      thumbColor={whiteBalance === "auto" ? "#ffffff" : "#ffffff"}
-      ios_backgroundColor="#ffffff"
-      onValueChange={() => {
-        setWhiteBalance(
-          whiteBalance === "auto"
-            ? "sunny"
-            : // : whiteBalance === "sunny"
-              // ? "cloudy"
-              // : whiteBalance === "cloudy"
-              // ? "shadow"
-              // : whiteBalance === "shadow"
-              // ? "fluorescent"
-              // : whiteBalance === "fluorescent"
-              // ? "incandescent"
-              "auto"
-        );
-      }}
-      value={whiteBalance !== "auto"}
-    />
-  </SwitchBox>
+  <LinearGradient colors={["rgb(240,255,120)", "white"]} locations={[0, 0.6]}>
+    <SwitchBox style={{ borderBottomColor: "black", borderBottomWidth: 1 }}>
+      <SwitchText>WhiteBalance</SwitchText>
+      <Switch
+        trackColor={{ false: "#ffffff", true: "#000000" }}
+        thumbColor={whiteBalance === "auto" ? "#ffffff" : "#ffffff"}
+        ios_backgroundColor="#ffffff"
+        onValueChange={() => {
+          setWhiteBalance(
+            whiteBalance === "auto"
+              ? "sunny"
+              : // : whiteBalance === "sunny"
+                // ? "cloudy"
+                // : whiteBalance === "cloudy"
+                // ? "shadow"
+                // : whiteBalance === "shadow"
+                // ? "fluorescent"
+                // : whiteBalance === "fluorescent"
+                // ? "incandescent"
+                "auto"
+          );
+        }}
+        value={whiteBalance !== "auto"}
+      />
+    </SwitchBox>
+  </LinearGradient>
 );
 
 export default WhiteBalance;
