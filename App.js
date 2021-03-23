@@ -186,11 +186,7 @@ export default function App() {
           <>
             <SwitchContainer>
               <LinearGradient colors={["rgb(240,255,120)", "red"]}>
-                <FaceMask
-                  setSmileMask={smileMask}
-                  setSmileMask={setSmileMask}
-                  Camera={Camera}
-                />
+                <FaceMask smileMask={smileMask} setSmileMask={setSmileMask} />
                 <Timer timer={timer} setTimer={setTimer} />
                 <Flip type={type} setType={setType} Camera={Camera} />
                 <Zoom zoom={zoom} setZoom={setZoom} />
@@ -228,77 +224,99 @@ export default function App() {
                 <TimerText>{timer !== 0 && timer / 1000}</TimerText>
               </TimerTextContainer>
 
-              <Face
-                style={{
-                  transform: [{ scaleX: close || 1 }, { scaleY: close || 1 }],
-                  left: facePosition?.x + (50 * close) / 2 || 0,
-                  top: facePosition?.y + (50 * close) / 2 || 0,
-                  borderColor: facePosition ? "black" : "transparent",
-                  backgroundColor: facePosition
-                    ? "rgb(240,255,120)"
-                    : "transparent",
-                  borderRadius: 100,
-                }}
-              />
-              <LeftEye
-                style={{
-                  transform: [
-                    { scaleX: close || 1 },
-                    { scaleY: close * 2 || 2 },
-                    {
-                      rotateZ:
-                        Math.round(rightEyePosition?.y - leftEyePosition?.y) /
-                          40 || 0,
-                    },
-                  ],
-                  left: leftEyePosition?.x - 0 || 0,
-                  top: leftEyePosition?.y - 10 || 0,
-                  backgroundColor: leftEyePosition ? "black" : "transparent",
-                }}
-              />
-              <RightEye
-                style={{
-                  transform: [
-                    { scaleX: close || 1 },
-                    { scaleY: close * 2 || 2 },
-                    {
-                      rotateZ:
-                        Math.round(rightEyePosition?.y - leftEyePosition?.y) /
-                          40 || 0,
-                    },
-                  ],
-                  left: rightEyePosition?.x - 10 || 0,
-                  top: rightEyePosition?.y - 10 || 0,
-                  backgroundColor: rightEyePosition ? "black" : "transparent",
-                }}
-              />
-              <Mouth
-                style={{
-                  transform: [
-                    { scaleX: close || 1 },
-                    { scaleY: close || 1 },
-                    {
-                      rotateZ:
-                        Math.round(rightEyePosition?.y - leftEyePosition?.y) /
-                          40 || 0,
-                    },
-                  ],
-                  left: mouthPosition?.x - 25 || 0,
-                  top: mouthPosition?.y - 25 || 0,
-                  borderTopWidth: 1,
-                  borderTopColor: "transparent",
-                  borderBottomLeftRadius: 50,
-                  borderBottomRightRadius: 50,
-                  borderColor: mouthPosition ? "black" : "transparent",
-                }}
-              >
-                <MouthEnd
-                  style={{ bottom: 1, right: 2, transform: [{ scaleX: 2 }] }}
-                />
-                <MouthEnd
-                  style={{ bottom: 1, right: -2, transform: [{ scaleX: 2 }] }}
-                />
-              </Mouth>
+              {smileMask && (
+                <>
+                  <Face
+                    style={{
+                      transform: [
+                        { scaleX: close || 1 },
+                        { scaleY: close || 1 },
+                      ],
+                      left: facePosition?.x + (50 * close) / 2 || 0,
+                      top: facePosition?.y + (50 * close) / 2 || 0,
+                      borderColor: facePosition ? "black" : "transparent",
+                      backgroundColor: facePosition
+                        ? "rgb(240,255,120)"
+                        : "transparent",
+                      borderRadius: 100,
+                    }}
+                  />
+                  <LeftEye
+                    style={{
+                      transform: [
+                        { scaleX: close || 1 },
+                        { scaleY: close * 2 || 2 },
+                        {
+                          rotateZ:
+                            Math.round(
+                              rightEyePosition?.y - leftEyePosition?.y
+                            ) / 40 || 0,
+                        },
+                      ],
+                      left: leftEyePosition?.x - 0 || 0,
+                      top: leftEyePosition?.y - 10 || 0,
+                      backgroundColor: leftEyePosition
+                        ? "black"
+                        : "transparent",
+                    }}
+                  />
+                  <RightEye
+                    style={{
+                      transform: [
+                        { scaleX: close || 1 },
+                        { scaleY: close * 2 || 2 },
+                        {
+                          rotateZ:
+                            Math.round(
+                              rightEyePosition?.y - leftEyePosition?.y
+                            ) / 40 || 0,
+                        },
+                      ],
+                      left: rightEyePosition?.x - 10 || 0,
+                      top: rightEyePosition?.y - 10 || 0,
+                      backgroundColor: rightEyePosition
+                        ? "black"
+                        : "transparent",
+                    }}
+                  />
+                  <Mouth
+                    style={{
+                      transform: [
+                        { scaleX: close || 1 },
+                        { scaleY: close || 1 },
+                        {
+                          rotateZ:
+                            Math.round(
+                              rightEyePosition?.y - leftEyePosition?.y
+                            ) / 40 || 0,
+                        },
+                      ],
+                      left: mouthPosition?.x - 25 || 0,
+                      top: mouthPosition?.y - 25 || 0,
+                      borderTopWidth: 1,
+                      borderTopColor: "transparent",
+                      borderBottomLeftRadius: 50,
+                      borderBottomRightRadius: 50,
+                      borderColor: mouthPosition ? "black" : "transparent",
+                    }}
+                  >
+                    <MouthEnd
+                      style={{
+                        bottom: 1,
+                        right: 2,
+                        transform: [{ scaleX: 2 }],
+                      }}
+                    />
+                    <MouthEnd
+                      style={{
+                        bottom: 1,
+                        right: -2,
+                        transform: [{ scaleX: 2 }],
+                      }}
+                    />
+                  </Mouth>
+                </>
+              )}
             </CameraContainer>
 
             <ShutterContainer>

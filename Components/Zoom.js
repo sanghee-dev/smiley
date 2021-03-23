@@ -17,7 +17,10 @@ const SwitchText = styled.Text`
 `;
 
 const Zoom = ({ zoom, setZoom }) => (
-  <LinearGradient colors={["rgb(240,255,120)", "white"]} locations={[0, 0.6]}>
+  <LinearGradient
+    colors={[zoom ? "rgb(240,255,120)" : "rgb(200,200,200)", "white"]}
+    locations={[0, 0.6]}
+  >
     <SwitchBox style={{ borderBottomColor: "black", borderBottomWidth: 1 }}>
       <SwitchText>Zoom</SwitchText>
       <Switch

@@ -17,7 +17,13 @@ const SwitchText = styled.Text`
 `;
 
 const WhiteBalance = ({ whiteBalance, setWhiteBalance }) => (
-  <LinearGradient colors={["rgb(240,255,120)", "white"]} locations={[0, 0.6]}>
+  <LinearGradient
+    colors={[
+      whiteBalance !== "auto" ? "rgb(240,255,120)" : "rgb(200,200,200)",
+      "white",
+    ]}
+    locations={[0, 0.6]}
+  >
     <SwitchBox style={{ borderBottomColor: "black", borderBottomWidth: 1 }}>
       <SwitchText>WhiteBalance</SwitchText>
       <Switch

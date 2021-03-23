@@ -20,7 +20,10 @@ const Timer = ({ timer, setTimer }) => {
   const [timerTime, setTimerTime] = useState(3000);
 
   return (
-    <LinearGradient colors={["rgb(240,255,120)", "white"]} locations={[0, 0.6]}>
+    <LinearGradient
+      colors={[timer ? "rgb(240,255,120)" : "rgb(200,200,200)", "white"]}
+      locations={[0, 0.6]}
+    >
       <SwitchBox style={{ borderBottomColor: "black", borderBottomWidth: 1 }}>
         <SwitchText>Timer</SwitchText>
         <Switch
