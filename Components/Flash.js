@@ -1,31 +1,39 @@
 import React from "react";
 import styled from "styled-components/native";
-import { Feather } from "@expo/vector-icons";
+import { Switch } from "react-native";
 
-const Button = styled.TouchableOpacity`
-  flex: 1;
+const SwitchBox = styled.View`
+  width: 100%;
+  height: 70px;
   flex-direction: row;
-  align-self: flex-end;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  color: black;
+  padding: 10px 20px;
+`;
+const SwitchText = styled.Text`
+  font-size: 40px;
+  font-weight: 200;
 `;
 
 const Flash = ({ flashMode, setFlashMode, Camera }) => (
-  <Button
-    onPress={() => {
-      setFlashMode(
-        flashMode === Camera.Constants.FlashMode.off
-          ? Camera.Constants.FlashMode.on
-          : Camera.Constants.FlashMode.off
-      );
-    }}
-  >
-    <Feather
-      name={flashMode === Camera.Constants.FlashMode.off ? "zap" : "zap-off"}
-      size={24}
+  <SwitchBox style={{ borderBottomColor: "black", borderBottomWidth: 1 }}>
+    <SwitchText>Flash</SwitchText>
+    <Switch
+      trackColor={{ false: "#767577", true: "#F0FF09" }}
+      thumbColor={
+        flashMode === Camera.Constants.FlashMode.off ? "#ffffff" : "#ffffff"
+      }
+      ios_backgroundColor="#ffffff"
+      onValueChange={() => {
+        setFlashMode(
+          flashMode === Camera.Constants.FlashMode.off
+            ? Camera.Constants.FlashMode.on
+            : Camera.Constants.FlashMode.off
+        );
+      }}
+      value={flashMode !== Camera.Constants.FlashMode.off}
     />
-  </Button>
+  </SwitchBox>
 );
 
 export default Flash;

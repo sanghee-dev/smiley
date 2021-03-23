@@ -4,42 +4,29 @@ import styled from "styled-components/native";
 import { Dimensions } from "react-native";
 import * as FaceDetector from "expo-face-detector";
 import * as MediaLibrary from "expo-media-library";
+import { Feather } from "@expo/vector-icons";
 import Flip from "./Components/Flip";
 import Zoom from "./Components/Zoom";
 import Flash from "./Components/Flash";
 import WhiteBalance from "./Components/WhiteBalance";
 import Timer from "./Components/Timer";
-import { Feather } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 
 const ALBUM_NAME = "Smiley";
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 const Container = styled.View`
   flex: 1;
+  padding: 20px 0;
 `;
-const TopContainer = styled.View`
-  height: 60px;
-  flex-direction: row;
-  margin: 20px 0;
-`;
-const BottomContainer = styled.View`
-  flex: 0.45;
-  flex-direction: row;
-  margin: 20px 0;
-`;
-const Button = styled.TouchableOpacity`
-  flex: 1;
-  flex-direction: row;
-  align-self: flex-end;
-  align-items: center;
-  justify-content: center;
-  color: black;
+const SwitchContainer = styled.ScrollView`
+  height: 280px;
+  border: 1px solid black;
 `;
 const CameraContainer = styled.View`
   height: ${WIDTH - 40}px;
-  border-radius: 20px;
+  border-radius: 40px;
   overflow: hidden;
   margin: 20px;
-  border: 2px solid black;
 `;
 const TimerTextContainer = styled.View`
   width: ${WIDTH - 40}px;
@@ -49,10 +36,24 @@ const TimerTextContainer = styled.View`
   position: absolute;
 `;
 const TimerText = styled.Text`
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 80px;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 100px;
+  font-weight: 100;
 `;
-const Text = styled.Text``;
+const ShutterContainer = styled.View`
+  flex: 0.45;
+  flex-direction: row;
+  margin: 20px 0;
+`;
+const Shutter = styled.TouchableOpacity`
+  flex: 1;
+  flex-direction: row;
+  align-self: flex-end;
+  align-items: center;
+  justify-content: center;
+  color: black;
+`;
+const ErrorText = styled.Text``;
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -71,21 +72,23 @@ export default function App() {
 
   const onFacesDetected = ({ faces }) => {
     const face = faces[0];
-    if (face?.smilingProbability > 0.8) {
+    if (face?.smilingProbability > 0.9) {
       setSmileDetected(true);
       takePhoto();
     }
   };
   const takePhoto = async () => {
     try {
-      let count = timer;
-      const repeat = setInterval(() => {
-        count = count - 1000;
-        setTimer(count);
-        if (count < 1) {
-          clearInterval(repeat);
-        }
-      }, 1000);
+      if (timer > 0) {
+        let count = timer;
+        const repeat = setInterval(() => {
+          count = count - 1000;
+          setTimer(count);
+          if (count < 1) {
+            clearInterval(repeat);
+          }
+        }, 1000);
+      }
       setTimeout(async () => {
         let { uri } = await cameraRef.current?.takePictureAsync({
           quality: 1,
@@ -127,54 +130,57 @@ export default function App() {
 
   return (
     <Container>
-      {hasPermission ? (
-        <>
-          <TopContainer>
-            <Flip type={type} setType={setType} Camera={Camera} />
-            <Zoom zoom={zoom} setZoom={setZoom} />
-            <Timer timer={timer} setTimer={setTimer} />
-            <Flash
-              flashMode={flashMode}
-              setFlashMode={setFlashMode}
-              Camera={Camera}
-            />
-            <WhiteBalance
-              whiteBalance={whiteBalance}
-              setWhiteBalance={setWhiteBalance}
-            />
-          </TopContainer>
+      <LinearGradient colors={["rgba(240,255,9,0.2)", "transparent"]}>
+        {hasPermission ? (
+          <>
+            <SwitchContainer>
+              <Flip type={type} setType={setType} Camera={Camera} />
+              <Zoom zoom={zoom} setZoom={setZoom} />
+              <Timer timer={timer} setTimer={setTimer} />
+              <Flash
+                flashMode={flashMode}
+                setFlashMode={setFlashMode}
+                Camera={Camera}
+              />
+              <WhiteBalance
+                whiteBalance={whiteBalance}
+                setWhiteBalance={setWhiteBalance}
+              />
+            </SwitchContainer>
 
-          <CameraContainer>
-            <Camera
-              ref={cameraRef}
-              style={{ flex: 1 }}
-              type={type}
-              flashMode={flashMode}
-              zoom={zoom}
-              whiteBalance={whiteBalance}
-              onFacesDetected={smileDetected ? null : onFacesDetected}
-              faceDetectorSettings={{
-                mode: FaceDetector.Constants.Mode.fast,
-                detectLandmarks: FaceDetector.Constants.Landmarks.all,
-                runClassifications: FaceDetector.Constants.Classifications.all,
-                minDetectionInterval: 100,
-                tracking: true,
-              }}
-            />
-            <TimerTextContainer>
-              <TimerText>{timer !== 0 && timer / 1000}</TimerText>
-            </TimerTextContainer>
-          </CameraContainer>
+            <CameraContainer>
+              <Camera
+                ref={cameraRef}
+                style={{ flex: 1 }}
+                type={type}
+                flashMode={flashMode}
+                zoom={zoom}
+                whiteBalance={whiteBalance}
+                onFacesDetected={smileDetected ? null : onFacesDetected}
+                faceDetectorSettings={{
+                  mode: FaceDetector.Constants.Mode.fast,
+                  detectLandmarks: FaceDetector.Constants.Landmarks.all,
+                  runClassifications:
+                    FaceDetector.Constants.Classifications.all,
+                  minDetectionInterval: 100,
+                  tracking: true,
+                }}
+              />
+              <TimerTextContainer>
+                <TimerText>{timer !== 0 && timer / 1000}</TimerText>
+              </TimerTextContainer>
+            </CameraContainer>
 
-          <BottomContainer>
-            <Button onPress={() => takePhoto()}>
-              <Feather name="aperture" size={24} color="black" />
-            </Button>
-          </BottomContainer>
-        </>
-      ) : (
-        <Text>No access to camera</Text>
-      )}
+            <ShutterContainer>
+              <Shutter onPress={() => takePhoto()}>
+                <Feather name="aperture" size={24} color="black" />
+              </Shutter>
+            </ShutterContainer>
+          </>
+        ) : (
+          <ErrorText>No access to camera</ErrorText>
+        )}
+      </LinearGradient>
     </Container>
   );
 }

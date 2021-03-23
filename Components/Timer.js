@@ -1,33 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/native";
-import { Feather } from "@expo/vector-icons";
+import { Switch } from "react-native";
 
-const Button = styled.TouchableOpacity`
-  flex: 1;
+const SwitchBox = styled.View`
+  width: 100%;
+  height: 70px;
   flex-direction: row;
-  align-self: flex-end;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  color: black;
+  padding: 10px 20px;
 `;
-const Text = styled.Text`
-  font-size: 14px;
-  position: absolute;
+const SwitchText = styled.Text`
+  font-size: 40px;
+  font-weight: 200;
 `;
 
-const Timer = ({ timer, setTimer }) => (
-  <Button
-    onPress={() => {
-      setTimer(
-        timer === 0 ? 3000 : timer === 3000 ? 5000 : timer === 5000 ? 7000 : 0
-      );
-    }}
-  >
-    <Feather name={timer === 0 ? "clock" : "circle"} size={24} />
-    <Text>
-      {timer === 0 ? "" : timer === 3000 ? "3" : timer === 5000 ? "5" : "7"}
-    </Text>
-  </Button>
-);
+const Timer = ({ timer, setTimer }) => {
+  const [timerTime, setTimerTime] = useState(3000);
 
+  return (
+    <SwitchBox style={{ borderBottomColor: "black", borderBottomWidth: 1 }}>
+      <SwitchText>Timer</SwitchText>
+      <Switch
+        trackColor={{ false: "#767577", true: "#F0FF09" }}
+        thumbColor={timer === 0 ? "#ffffff" : "#ffffff"}
+        ios_backgroundColor="#ffffff"
+        onValueChange={() => {
+          setTimer(timer === 0 ? timerTime : 0);
+        }}
+        value={timer !== 0}
+      />
+    </SwitchBox>
+  );
+};
 export default Timer;

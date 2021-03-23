@@ -1,51 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/native";
-import { Feather } from "@expo/vector-icons";
+import { Switch } from "react-native";
 
-const Button = styled.TouchableOpacity`
-  flex: 1;
+const SwitchBox = styled.View`
+  width: 100%;
+  height: 70px;
   flex-direction: row;
-  align-self: flex-end;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  color: black;
+  padding: 10px 20px;
+`;
+const SwitchText = styled.Text`
+  font-size: 40px;
+  font-weight: 200;
 `;
 
 const WhiteBalance = ({ whiteBalance, setWhiteBalance }) => (
-  <Button
-    onPress={() => {
-      setWhiteBalance(
-        whiteBalance === "auto"
-          ? "sunny"
-          : whiteBalance === "sunny"
-          ? "cloudy"
-          : whiteBalance === "cloudy"
-          ? "shadow"
-          : whiteBalance === "shadow"
-          ? "fluorescent"
-          : whiteBalance === "fluorescent"
-          ? "incandescent"
-          : "auto"
-      );
-    }}
-  >
-    <Feather
-      name={
-        whiteBalance === "auto"
-          ? "loader"
-          : whiteBalance === "sunny"
-          ? "sun"
-          : whiteBalance === "cloudy"
-          ? "cloud"
-          : whiteBalance === "shadow"
-          ? "cloud-rain"
-          : whiteBalance === "fluorescent"
-          ? "cloud-drizzle"
-          : "cloud-snow"
-      }
-      size={24}
+  <SwitchBox style={{ borderBottomColor: "black", borderBottomWidth: 1 }}>
+    <SwitchText>WhiteBalance</SwitchText>
+    <Switch
+      trackColor={{ false: "#767577", true: "#F0FF09" }}
+      thumbColor={whiteBalance === "auto" ? "#ffffff" : "#ffffff"}
+      ios_backgroundColor="#ffffff"
+      onValueChange={() => {
+        setWhiteBalance(
+          whiteBalance === "auto"
+            ? "sunny"
+            : // : whiteBalance === "sunny"
+              // ? "cloudy"
+              // : whiteBalance === "cloudy"
+              // ? "shadow"
+              // : whiteBalance === "shadow"
+              // ? "fluorescent"
+              // : whiteBalance === "fluorescent"
+              // ? "incandescent"
+              "auto"
+        );
+      }}
+      value={whiteBalance !== "auto"}
     />
-  </Button>
+  </SwitchBox>
 );
 
 export default WhiteBalance;

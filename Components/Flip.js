@@ -1,31 +1,37 @@
 import React from "react";
 import styled from "styled-components/native";
-import { Feather } from "@expo/vector-icons";
+import { Switch } from "react-native";
 
-const Button = styled.TouchableOpacity`
-  flex: 1;
+const SwitchBox = styled.View`
+  width: 100%;
+  height: 70px;
   flex-direction: row;
-  align-self: flex-end;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  color: black;
+  padding: 10px 20px;
+`;
+const SwitchText = styled.Text`
+  font-size: 40px;
+  font-weight: 200;
 `;
 
 const Flip = ({ type, setType, Camera }) => (
-  <Button
-    onPress={() => {
-      setType(
-        type === Camera.Constants.Type.front
-          ? Camera.Constants.Type.back
-          : Camera.Constants.Type.front
-      );
-    }}
-  >
-    <Feather
-      name={type === Camera.Constants.Type.back ? "frown" : "smile"}
-      size={24}
+  <SwitchBox style={{ borderBottomColor: "black", borderBottomWidth: 1 }}>
+    <SwitchText>Flip</SwitchText>
+    <Switch
+      trackColor={{ false: "#767577", true: "#F0FF09" }}
+      thumbColor={type === Camera.Constants.Type.front ? "#ffffff" : "#ffffff"}
+      ios_backgroundColor="#ffffff"
+      onValueChange={() =>
+        setType(
+          type === Camera.Constants.Type.front
+            ? Camera.Constants.Type.back
+            : Camera.Constants.Type.front
+        )
+      }
+      value={type !== Camera.Constants.Type.front}
     />
-  </Button>
+  </SwitchBox>
 );
 
 export default Flip;
