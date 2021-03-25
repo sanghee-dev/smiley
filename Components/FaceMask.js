@@ -16,7 +16,7 @@ const SwitchText = styled.Text`
   font-weight: 200;
 `;
 
-const FaceMask = ({ smileMask, setSmileMask }) => (
+const FaceMask = ({ smileMask, setSmileMask, smilePercent }) => (
   <LinearGradient
     colors={[smileMask ? "rgb(240,255,120)" : "rgb(200,200,200)", "white"]}
     locations={[0, 0.6]}
@@ -27,7 +27,7 @@ const FaceMask = ({ smileMask, setSmileMask }) => (
         borderBottomWidth: 1,
       }}
     >
-      <SwitchText>Smile Mask</SwitchText>
+      <SwitchText>Smile Mask {smilePercent}%</SwitchText>
       <Switch
         trackColor={{ false: "#ffffff", true: "#000000" }}
         thumbColor="#ffffff"

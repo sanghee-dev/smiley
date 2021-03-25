@@ -24,7 +24,7 @@ const SwitchContainer = styled.ScrollView`
   border: 1px solid black;
 `;
 const CameraContainer = styled.View`
-  height: ${HEIGHT - 70 * 5 - 60}px;
+  height: ${HEIGHT - 70 * 5 - 80}px;
   border-radius: 40px;
   overflow: hidden;
   margin: 20px;
@@ -80,6 +80,7 @@ export default function App() {
   ];
   const [filtersIndex, setFiltersIndex] = useState(0);
   const [smileDetected, setSmileDetected] = useState(false);
+  const [smilePercent, setSmilePercent] = useState(0.5);
   const [timer, setTimer] = useState(0);
   const [timering, setTimering] = useState(false);
   const cameraRef = useRef();
@@ -104,7 +105,8 @@ export default function App() {
     setFacePosition(face?.bounds?.origin);
 
     setClose(Math.floor(face?.bounds?.size?.width) / 100);
-    if (face?.smilingProbability > 0.9) {
+    setSmilePercent(face?.smilingProbability.toFixed(1) * 100 || 0);
+    if (face?.smilingProbability > 0.91) {
       setSmileDetected(true);
       takePhoto();
     }
@@ -171,7 +173,11 @@ export default function App() {
         {hasPermission ? (
           <>
             <SwitchContainer>
-              <FaceMask smileMask={smileMask} setSmileMask={setSmileMask} />
+              <FaceMask
+                smileMask={smileMask}
+                setSmileMask={setSmileMask}
+                smilePercent={smilePercent}
+              />
               <Timer timer={timer} setTimer={setTimer} />
               <Flip type={type} setType={setType} Camera={Camera} />
               <WhiteBalance
