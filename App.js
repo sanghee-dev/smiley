@@ -20,7 +20,7 @@ const Container = styled.View`
   padding: 20px 0;
 `;
 const SwitchContainer = styled.ScrollView`
-  height: 280px;
+  height: 300px;
   border: 1px solid black;
 `;
 const CameraContainer = styled.View`
@@ -70,7 +70,15 @@ export default function App() {
   const [type, setType] = useState(Camera.Constants.Type.front);
   const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.off);
   const [zoom, setZoom] = useState(0);
-  const [whiteBalance, setWhiteBalance] = useState("auto");
+  const filters = [
+    "Auto",
+    "Sunny",
+    "Cloudy",
+    "Shadow",
+    "Fluorescent",
+    "Incandescent",
+  ];
+  const [filtersIndex, setFiltersIndex] = useState(0);
   const [smileDetected, setSmileDetected] = useState(false);
   const [timer, setTimer] = useState(0);
   const [timering, setTimering] = useState(false);
@@ -173,8 +181,9 @@ export default function App() {
                 Camera={Camera}
               />
               <WhiteBalance
-                whiteBalance={whiteBalance}
-                setWhiteBalance={setWhiteBalance}
+                filters={filters}
+                filtersIndex={filtersIndex}
+                setFiltersIndex={setFiltersIndex}
               />
             </SwitchContainer>
 
@@ -185,7 +194,7 @@ export default function App() {
                 type={type}
                 flashMode={flashMode}
                 zoom={zoom}
-                whiteBalance={whiteBalance}
+                whiteBalance={filters[filtersIndex]}
                 onFacesDetected={smileDetected ? null : onFacesDetected}
                 faceDetectorSettings={{
                   mode: FaceDetector.Constants.Mode.fast,
