@@ -33,13 +33,13 @@ const CameraContainer = styled.View`
 const ErrorText = styled.Text``;
 const LeftEye = styled.View`
   width: 10px;
-  height: 10px;
+  height: 20px;
   position: absolute;
   border-radius: 20px;
 `;
 const RightEye = styled.View`
   width: 10px;
-  height: 10px;
+  height: 20px;
   position: absolute;
   border-radius: 20px;
 `;
@@ -174,17 +174,17 @@ export default function App() {
               <FaceMask smileMask={smileMask} setSmileMask={setSmileMask} />
               <Timer timer={timer} setTimer={setTimer} />
               <Flip type={type} setType={setType} Camera={Camera} />
-              <Zoom zoom={zoom} setZoom={setZoom} />
-              <Flash
-                flashMode={flashMode}
-                setFlashMode={setFlashMode}
-                Camera={Camera}
-              />
               <WhiteBalance
                 filters={filters}
                 filtersIndex={filtersIndex}
                 setFiltersIndex={setFiltersIndex}
               />
+              <Flash
+                flashMode={flashMode}
+                setFlashMode={setFlashMode}
+                Camera={Camera}
+              />
+              <Zoom zoom={zoom} setZoom={setZoom} />
             </SwitchContainer>
 
             <CameraContainer>
@@ -227,7 +227,7 @@ export default function App() {
                     style={{
                       transform: [
                         { scaleX: close || 1 },
-                        { scaleY: close * 2 || 2 },
+                        { scaleY: close || 1 },
                         {
                           rotateZ:
                             Math.round(
@@ -246,7 +246,7 @@ export default function App() {
                     style={{
                       transform: [
                         { scaleX: close || 1 },
-                        { scaleY: close * 2 || 2 },
+                        { scaleY: close || 1 },
                         {
                           rotateZ:
                             Math.round(
