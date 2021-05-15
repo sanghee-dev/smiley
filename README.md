@@ -45,6 +45,9 @@
 
 ## Plz visit me!
 
-- https://expo.io/@sanghee/projects/smiley <img align="right" src="https://user-images.githubusercontent.com/61302874/118361481-9c938e00-b5c6-11eb-94a6-85c3d75ba1db.png" width="20%" />
+- https://expo.io/@sanghee/projects/smiley
 
-<img src="https://user-images.githubusercontent.com/61302874/118362988-32cab280-b5cd-11eb-833a-e437aa88d785.png" width="70%"/>
+<img src="https://user-images.githubusercontent.com/61302874/118369597-eab48b80-b5de-11eb-8456-57c88a766a8f.png" width="800" />
+
+<img src="https://user-images.githubusercontent.com/61302874/118370092-0e78d100-b5e1-11eb-877c-91a4a5bc4dfa.png" width="800"/>
+
