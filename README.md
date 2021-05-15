@@ -1,7 +1,7 @@
 # Smiley <img src="https://user-images.githubusercontent.com/61302874/118362824-40cc0380-b5cc-11eb-96ea-d3e76f9eb34b.png" width="20">
 
 - Smiley is a photo smiley filter app!
-Have a good time :)
+- Have a good time :)
 
 <br/>
 
