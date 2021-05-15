@@ -1,6 +1,6 @@
 # Smiley <img src="https://user-images.githubusercontent.com/61302874/118362824-40cc0380-b5cc-11eb-96ea-d3e76f9eb34b.png" width="20">
 
-Smiley is a photo smiley filter app!
+- Smiley is a photo smiley filter app!
 Have a good time :)
 
 <br/>
@@ -45,6 +45,6 @@ Have a good time :)
 
 ## Plz visit me!
 
-### https://expo.io/@sanghee/projects/smiley <img align="right" src="https://user-images.githubusercontent.com/61302874/118361481-9c938e00-b5c6-11eb-94a6-85c3d75ba1db.png" width="20%" />
+- https://expo.io/@sanghee/projects/smiley <img align="right" src="https://user-images.githubusercontent.com/61302874/118361481-9c938e00-b5c6-11eb-94a6-85c3d75ba1db.png" width="20%" />
 
 <img src="https://user-images.githubusercontent.com/61302874/118362988-32cab280-b5cd-11eb-833a-e437aa88d785.png" width="70%"/>
