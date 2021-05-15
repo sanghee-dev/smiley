@@ -25,7 +25,7 @@
 
 - You can use the front camera or the rear camera.
 
-### WhiteBalance
+### White Balance
 
 - You can use white balance filters. Filters include sunny, coludy, shadow, fluorescent, and incandescent.
 
@@ -47,6 +47,6 @@
 
 - https://expo.io/@sanghee/projects/smiley
 
-<img src="https://user-images.githubusercontent.com/61302874/118369597-eab48b80-b5de-11eb-8456-57c88a766a8f.png" width="800" />
+<img alt="expo" src="https://user-images.githubusercontent.com/61302874/118371156-361e6800-b5e6-11eb-97e9-a3221dca2904.png" width="800" />
 
-<img src="https://user-images.githubusercontent.com/61302874/118370092-0e78d100-b5e1-11eb-877c-91a4a5bc4dfa.png" width="800"/>
+<img alt="mockup" src="https://user-images.githubusercontent.com/61302874/118370092-0e78d100-b5e1-11eb-877c-91a4a5bc4dfa.png" width="800"/>
