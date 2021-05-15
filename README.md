@@ -5,7 +5,7 @@
 
 <br/>
 
-## Functions!
+# Functions!
 
 ### Smile Mask
 
@@ -43,11 +43,10 @@
 
 <br/>
 
-## Plz visit me!
+# Plz visit me!
 
 - https://expo.io/@sanghee/projects/smiley
 
 <img src="https://user-images.githubusercontent.com/61302874/118369597-eab48b80-b5de-11eb-8456-57c88a766a8f.png" width="800" />
 
 <img src="https://user-images.githubusercontent.com/61302874/118370092-0e78d100-b5e1-11eb-877c-91a4a5bc4dfa.png" width="800"/>
-
